@@ -1,0 +1,100 @@
+// Prisma Schema for Mini Dating App
+// Database: PostgreSQL
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// USER MODEL
+// ============================================
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String
+  age       Int
+  gender    String   // "MALE", "FEMALE", "OTHER"
+  bio       String
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // Relations
+  sentLikes     Like[]         @relation("LikeSender")
+  receivedLikes Like[]         @relation("LikeReceiver")
+  matchesAsUserA Match[]       @relation("MatchUserA")
+  matchesAsUserB Match[]       @relation("MatchUserB")
+  availabilities Availability[]
+  
+  @@index([email])
+  @@index([createdAt])
+}
+
+// ============================================
+// LIKE MODEL - Track who likes whom
+// ============================================
+model Like {
+  id         String   @id @default(uuid())
+  senderId   String
+  receiverId String
+  
+  sender     User     @relation("LikeSender", fields: [senderId], references: [id], onDelete: Cascade)
+  receiver   User     @relation("LikeReceiver", fields: [receiverId], references: [id], onDelete: Cascade)
+  
+  createdAt  DateTime @default(now())
+  
+  @@unique([senderId, receiverId])
+  @@index([senderId])
+  @@index([receiverId])
+}
+
+// ============================================
+// MATCH MODEL - When both users like each other
+// ============================================
+model Match {
+  id          String    @id @default(uuid())
+  userAId     String
+  userBId     String
+  
+  userA       User      @relation("MatchUserA", fields: [userAId], references: [id], onDelete: Cascade)
+  userB       User      @relation("MatchUserB", fields: [userBId], references: [id], onDelete: Cascade)
+  
+  matchedAt   DateTime  @default(now())
+  
+  // Date scheduling fields
+  hasScheduledDate Boolean   @default(false)
+  proposedDate     DateTime?
+  proposedTime     String?   // "10:00-12:00"
+  
+  @@unique([userAId, userBId])
+  @@index([userAId])
+  @@index([userBId])
+  @@index([matchedAt])
+}
+
+// ============================================
+// AVAILABILITY MODEL - User's free time slots
+// ============================================
+model Availability {
+  id        String   @id @default(uuid())
+  userId    String
+  matchId   String?  // Optional: link to specific match
+  
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  date      DateTime // The date (YYYY-MM-DD)
+  startTime String   // "10:00"
+  endTime   String   // "12:00"
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@index([userId])
+  @@index([matchId])
+  @@index([date])
+}

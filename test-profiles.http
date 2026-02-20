@@ -1,0 +1,138 @@
+### Clique Dating App - Profiles API (TIGER Pattern)
+
+@baseUrl = http://localhost:3000/api
+
+### 1. Get all profiles with pagination
+GET {{baseUrl}}/profiles?page=1&limit=10
+
+### 2. Get all profiles with filters
+GET {{baseUrl}}/profiles?gender=FEMALE&minAge=23&maxAge=30&search=coffee
+
+### 3. Create profile - Alice
+POST {{baseUrl}}/profiles
+Content-Type: application/json
+
+{
+  "email": "alice@example.com",
+  "name": "Alice Johnson",
+  "age": 25,
+  "gender": "FEMALE",
+  "bio": "Love hiking and coffee. Looking for someone adventurous!"
+}
+
+### 4. Create profile - Bob
+POST {{baseUrl}}/profiles
+Content-Type: application/json
+
+{
+  "email": "bob@example.com",
+  "name": "Bob Smith",
+  "age": 28,
+  "gender": "male",
+  "bio": "Software engineer who enjoys cooking and traveling around the world."
+}
+
+### 5. Create profile - Charlie
+POST {{baseUrl}}/profiles
+Content-Type: application/json
+
+{
+  "email": "charlie@example.com",
+  "name": "Charlie Brown",
+  "age": 30,
+  "gender": "male",
+  "bio": "Fitness enthusiast and dog lover. Let's go on adventures together!"
+}
+
+### 6. Create profile - Diana
+POST {{baseUrl}}/profiles
+Content-Type: application/json
+
+{
+  "email": "diana@example.com",
+  "name": "Diana Prince",
+  "age": 27,
+  "gender": "female",
+  "bio": "Artist and yoga instructor. Looking for meaningful connections and deep conversations."
+}
+
+### 7. Get profile by email (for "login")
+GET {{baseUrl}}/profiles/by-email/alice@example.com
+
+### 8. Get profile by ID (replace with actual ID from create response)
+@profileId = your-uuid-here
+GET {{baseUrl}}/profiles/{{profileId}}
+
+### 9. Update profile (replace with actual ID)
+PUT {{baseUrl}}/profiles/{{profileId}}
+Content-Type: application/json
+
+{
+  "id": "{{profileId}}",
+  "bio": "Updated bio: Love hiking, coffee, and meeting new amazing people!"
+}
+
+### 10. Delete profile (replace with actual ID)
+DELETE {{baseUrl}}/profiles/{{profileId}}
+
+### ===== VALIDATION TESTS =====
+
+### Test: Invalid email
+POST {{baseUrl}}/profiles
+Content-Type: application/json
+
+{
+  "email": "invalid-email",
+  "name": "Test",
+  "age": 25,
+  "gender": "female",
+  "bio": "Test bio here that is long enough"
+}
+
+### Test: Age too young (< 18)
+POST {{baseUrl}}/profiles
+Content-Type: application/json
+
+{
+  "email": "young@example.com",
+  "name": "Too Young",
+  "age": 16,
+  "gender": "male",
+  "bio": "I'm too young for this dating app"
+}
+
+### Test: Bio too short (< 10 chars)
+POST {{baseUrl}}/profiles
+Content-Type: application/json
+
+{
+  "email": "short@example.com",
+  "name": "Short Bio",
+  "age": 25,
+  "gender": "female",
+  "bio": "Hi"
+}
+
+### Test: Duplicate email
+POST {{baseUrl}}/profiles
+Content-Type: application/json
+
+{
+  "email": "alice@example.com",
+  "name": "Alice Clone",
+  "age": 26,
+  "gender": "female",
+  "bio": "This should fail because email already exists"
+}
+
+### Test: Invalid gender
+POST {{baseUrl}}/profiles
+Content-Type: application/json
+
+{
+  "email": "invalid@example.com",
+  "name": "Invalid Gender",
+  "age": 25,
+  "gender": "alien",
+  "bio": "This should fail due to invalid gender value"
+}
