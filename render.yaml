@@ -4,7 +4,7 @@ services:
     runtime: node
     region: singapore
     plan: free
-    buildCommand: pnpm install && pnpm prisma generate && pnpm build
+    buildCommand: pnpm install && pnpm prisma generate && pnpm prisma migrate deploy && pnpm build
     startCommand: pnpm start:prod
     envVars:
       - key: NODE_ENV
