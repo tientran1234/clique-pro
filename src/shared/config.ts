@@ -11,7 +11,7 @@ const envConfig = {
     DATABASE_URL: process.env.DATABASE_URL || 'file:./dev.db',
 
     // CORS
-    ALLOWED_ORIGINS: process.env.ALLOWED_ORIGINS || 'http://localhost:3000,http://localhost:5175',
+    ALLOWED_ORIGINS: process.env.ALLOWED_ORIGINS || 'http://localhost:3000,http://localhost:5173,http://localhost:5175',
 
     // JWT (for future auth implementation)
     JWT_SECRET: process.env.JWT_SECRET || 'clique-secret-key-change-in-production',
