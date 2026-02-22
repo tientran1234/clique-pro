@@ -1,98 +1,359 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Clique Dating App - Backend API 🚀
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+> A robust dating application API built with NestJS, Prisma, and PostgreSQL for Clique83.com technical assessment.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+[![API Status](https://img.shields.io/badge/API-active-success)](https://clique-pro.onrender.com/api)
+[![Database](https://img.shields.io/badge/database-PostgreSQL-blue)](https://www.postgresql.org/)
+[![Framework](https://img.shields.io/badge/framework-NestJS-red)](https://nestjs.com/)
 
-## Description
+## 📡 API Endpoints
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- **Base URL (Local)**: `http://localhost:3000/api`
+- **Base URL (Production)**: `https://clique-pro.onrender.com/api`
+- **API Documentation**: `https://clique-pro.onrender.com/api` (Swagger)
 
-## Project setup
+## ✨ Features
 
-```bash
-$ pnpm install
+### 🔒 Core Architecture
+- ✅ RESTful API design
+- ✅ TypeScript for type safety
+- ✅ Zod validation with nestjs-zod
+- ✅ Prisma ORM for database management
+- ✅ Repository pattern for data access
+- ✅ Global exception handling
+- ✅ CORS configuration
+- ✅ Swagger API documentation
+
+### 📚 Modules
+
+#### 👤 Profiles Module
+- Create, read, update, delete user profiles
+- Search by email
+- Pagination support
+
+#### 💙 Likes Module  
+- Send likes to other users
+- Get all likes (sent/received)
+- Automatic duplicate prevention
+
+#### 💑 Matches Module
+- Automatic match creation on mutual likes
+- Get user's matches
+- Get match details
+
+#### 📅 Availability Module
+- Set availability for meetings
+- Day of week and time slot selection
+- Find mutual availability
+- Delete availability
+
+## 🛠️ Tech Stack
+
+- **Framework**: NestJS 11
+- **Language**: TypeScript
+- **Database**: PostgreSQL
+- **ORM**: Prisma 5
+- **Validation**: Zod + nestjs-zod
+- **API Docs**: Swagger/OpenAPI
+- **Deployment**: Render
+
+## 🏗️ Architecture
+
+```
+clique-pro/
+├── src/
+│   ├── routes/
+│   │   ├── profiles/       # Profile management
+│   │   │   ├── profiles.controller.ts
+│   │   │   ├── profiles.service.ts
+│   │   │   ├── profiles.repository.ts
+│   │   │   ├── profiles.dto.ts
+│   │   │   └── profiles.model.ts
+│   │   ├── likes/         # Like system
+│   │   ├── matches/       # Match logic
+│   │   └── availability/  # Scheduling
+│   ├── prisma/            # Prisma service
+│   ├── shared/            # Shared utilities
+│   │   ├── config.ts
+│   │   ├── filters/       # Exception filters
+│   │   ├── pipes/         # Validation pipes
+│   │   └── decorator/     # Custom decorators
+│   ├── app.module.ts
+│   └── main.ts
+├── prisma/
+│   ├── schema.prisma      # Database schema
+│   └── migrations/        # Migration history
+└── test/                  # E2E tests
 ```
 
-## Compile and run the project
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js 18+
+- pnpm (recommended) or npm
+- PostgreSQL database
+
+### Installation
 
 ```bash
-# development
-$ pnpm run start
+# Clone repository
+git clone <repository-url>
+cd clique-pro
 
-# watch mode
-$ pnpm run start:dev
+# Install dependencies
+pnpm install
 
-# production mode
-$ pnpm run start:prod
+# Setup environment variables
+cp .env.example .env
+# Edit .env with your database credentials
 ```
 
-## Run tests
+### Environment Variables
+
+Create `.env` file:
+
+```env
+# Database (PostgreSQL)
+DATABASE_URL="postgresql://user:password@host:5432/database_name"
+
+# Application
+PORT=3000
+NODE_ENV=development
+
+# CORS - Allowed origins (comma separated)
+ALLOWED_ORIGINS="http://localhost:5173,https://clique-fe.vercel.app"
+
+# JWT (for future auth implementation)
+JWT_SECRET="your-secret-key-change-in-production"
+JWT_EXPIRES_IN="7d"
+```
+
+### Database Setup
 
 ```bash
-# unit tests
-$ pnpm run test
+# Generate Prisma Client
+pnpm prisma generate
 
-# e2e tests
-$ pnpm run test:e2e
+# Run migrations
+pnpm prisma migrate deploy
 
-# test coverage
-$ pnpm run test:cov
+# (Optional) Seed database
+pnpm prisma db seed
+
+# (Optional) Open Prisma Studio
+pnpm prisma studio
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+### Running the Application
 
 ```bash
-$ pnpm install -g @nestjs/mau
-$ mau deploy
+# Development mode (watch mode)
+pnpm start:dev
+
+# Production mode
+pnpm build
+pnpm start:prod
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+API will be available at: `http://localhost:3000/api`
 
-## Resources
+## 📋 API Endpoints
 
-Check out a few resources that may come in handy when working with NestJS:
+### Profiles
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+```http
+GET    /api/profiles           # Get all profiles (paginated)
+GET    /api/profiles/:id       # Get profile by ID
+GET    /api/profiles/by-email/:email  # Get profile by email
+POST   /api/profiles           # Create new profile
+PUT    /api/profiles/:id       # Update profile
+DELETE /api/profiles/:id       # Delete profile
+```
 
-## Support
+### Likes
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+```http
+POST   /api/likes              # Send like
+GET    /api/likes?userId=:id   # Get user's likes
+```
 
-## Stay in touch
+### Matches
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+```http
+GET    /api/matches?userId=:id  # Get user's matches
+GET    /api/matches/:id         # Get match details
+```
 
-## License
+### Availability
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+```http
+POST   /api/availability       # Set availability
+GET    /api/availability?matchId=:id&userId=:id  # Get availability
+DELETE /api/availability/:id   # Delete availability
+```
+
+### Example Requests
+
+**Create Profile:**
+```bash
+curl -X POST http://localhost:3000/api/profiles \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "John Doe",
+    "email": "john@example.com",
+    "age": 25,
+    "gender": "MALE",
+    "bio": "Software engineer who loves hiking"
+  }'
+```
+
+**Send Like:**
+```bash
+curl -X POST http://localhost:3000/api/likes \
+  -H "Content-Type: application/json" \
+  -d '{
+    "senderId": "uuid-sender",
+    "receiverId": "uuid-receiver"
+  }'
+```
+
+## 📊 Database Schema
+
+### Models
+
+- **User**: User profiles (id, email, name, age, gender, bio)
+- **Like**: Like relationships (id, senderId, receiverId)
+- **Match**: Matched pairs (id, userAId, userBId)
+- **Availability**: Meeting schedules (id, matchId, userId, dayOfWeek, timeSlot)
+
+### Relationships
+
+```
+User ----< Like (sender)
+User ----< Like (receiver)
+User ----< Match (userA)
+User ----< Match (userB)
+Match ---< Availability
+User ----< Availability
+```
+
+## 🔧 Development
+
+### Available Scripts
+
+```bash
+pnpm start:dev       # Start dev server with watch mode
+pnpm build           # Build for production
+pnpm start:prod      # Start production server
+pnpm test            # Run unit tests
+pnpm test:e2e        # Run E2E tests
+pnpm test:cov        # Test coverage
+pnpm lint            # Run ESLint
+pnpm format          # Format code with Prettier
+pnpm prisma studio   # Open Prisma Studio GUI
+```
+
+### Testing
+
+```bash
+# Unit tests
+pnpm test
+
+# E2E tests
+pnpm test:e2e
+
+# Test coverage
+pnpm test:cov
+```
+
+## 🚢 Deployment
+
+### Deploy to Render
+
+The project includes `render.yaml` for easy deployment:
+
+```yaml
+services:
+  - type: web
+    name: clique-backend
+    runtime: node
+    buildCommand: pnpm install && pnpm prisma generate && pnpm build
+    startCommand: sh start.sh
+```
+
+**Setup Steps:**
+
+1. **Create PostgreSQL Database on Render**
+   - Dashboard → New → PostgreSQL
+   - Copy connection string
+
+2. **Set Environment Variables**
+   - `DATABASE_URL`: PostgreSQL connection string
+   - `NODE_ENV`: production
+   - `ALLOWED_ORIGINS`: Frontend URL
+
+3. **Deploy**
+   ```bash
+   git push origin main
+   ```
+   Render will auto-deploy from GitHub.
+
+4. **Verify**
+   - Check logs for migration success
+   - Test API endpoints
+
+### Important Notes
+
+⚠️ **Database**: Use PostgreSQL for production (not SQLite). SQLite is ephemeral on Render.
+
+✅ **Migration**: Runs automatically via `start.sh` before app starts.
+
+🔒 **Security**: Never commit `.env` file. Use environment variables on hosting platform.
+
+## 📚 Documentation
+
+- **API Docs**: Available at `/api` endpoint (Swagger UI)
+- **Deployment Guide**: See [RENDER_SETUP.md](./RENDER_SETUP.md)
+- **Architecture**: See [MODULE_ARCHITECTURE.md](./MODULE_ARCHITECTURE.md)
+
+## 🐛 Troubleshooting
+
+### Issue: "Table does not exist"
+**Solution**: Run migrations:
+```bash
+pnpm prisma migrate deploy
+```
+
+### Issue: "Connection refused"
+**Solution**: Check DATABASE_URL and ensure PostgreSQL is running.
+
+### Issue: CORS errors
+**Solution**: Add frontend URL to ALLOWED_ORIGINS environment variable.
+
+### Issue: Port already in use
+**Solution**: 
+```bash
+lsof -ti:3000 | xargs kill -9
+```
+
+## 📈 Future Enhancements
+
+- [ ] JWT Authentication
+- [ ] Real-time notifications (WebSocket)
+- [ ] Image upload for profiles
+- [ ] Advanced matching algorithm
+- [ ] Message system
+- [ ] Video call integration
+
+## 🤝 Contributing
+
+This is a technical assessment project for Clique83.com.
+
+## 📄 License
+
+MIT
+
+## 👨‍💻 Author
+
+Built for Clique83.com Web Developer Intern position.
