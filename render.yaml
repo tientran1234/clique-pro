@@ -5,11 +5,14 @@ services:
     region: singapore
     plan: free
     buildCommand: pnpm install && pnpm prisma generate && pnpm build
-    startCommand: sh -c "pnpm prisma migrate deploy && pnpm start:prod"
+    startCommand: sh -c "pnpm prisma migrate deploy && node dist/main"
     envVars:
       - key: NODE_ENV
         value: production
       - key: DATABASE_URL
+        # ⚠️ WARNING: SQLite không lưu trữ được trên Render (ephemeral filesystem)
+        # Data sẽ BỊ MẤT sau mỗi lần deploy hoặc restart
+        # Để dùng production, nên chuyển sang PostgreSQL
         value: file:./prisma.db
-      - key: PORT
-        value: 3000
+      - key: ALLOWED_ORIGINS
+        value: https://clique-fe.vercel.app,http://localhost:5173
