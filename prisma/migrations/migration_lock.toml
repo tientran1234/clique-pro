@@ -1,0 +1,4 @@
+# This file should only be present in the lock state of the data model.
+# https://prisma.io/docs/reference/tools-and-interfaces/prisma-migrate#lock-files
+
+provider = "postgresql"

@@ -1,12 +1,12 @@
 // Prisma Schema for Mini Dating App
-// Database: SQLite (dev) / PostgreSQL (production)
+// Database: PostgreSQL (Production on Render)
 
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 

@@ -3,6 +3,7 @@
 ## Vấn đề với SQLite trên Render
 
 ❌ **SQLite không hoạt động trên Render vì:**
+
 - Render dùng **ephemeral filesystem** → file bị xóa sau mỗi deploy
 - Data sẽ **MẤT HẾT** sau mỗi lần:
   - Deploy code mới
@@ -31,12 +32,14 @@
 ### Option B: Dùng Neon/Supabase (Free + Better)
 
 #### Neon (Recommended):
+
 1. Vào: https://neon.tech
 2. Sign up → Create Project
-3. Region: **Singapore** 
+3. Region: **Singapore**
 4. Copy **Connection String**
 
 #### Supabase:
+
 1. Vào: https://supabase.com
 2. New Project → Region: **Singapore**
 3. Settings → Database → Copy **Connection String** (mode: Session)
@@ -61,7 +64,7 @@ services:
         value: production
       - key: DATABASE_URL
         fromDatabase:
-          name: clique-db  # Tên database từ Bước 1
+          name: clique-db # Tên database từ Bước 1
           property: connectionString
       - key: ALLOWED_ORIGINS
         value: https://clique-fe.vercel.app
@@ -118,6 +121,7 @@ git push
 ```
 
 Render sẽ tự động:
+
 1. Detect `render.yaml` thay đổi
 2. **Tạo PostgreSQL database** (nếu dùng internal DB)
 3. Link DATABASE_URL vào service
@@ -129,6 +133,7 @@ Render sẽ tự động:
 ## Bước 6: Verify
 
 1. **Check Logs** trên Render Dashboard:
+
    ```
    ====================================
    📦 Running Prisma Migrations...
@@ -146,32 +151,38 @@ Render sẽ tự động:
 
 ## So sánh: Tiger (VPS) vs Clique (Render)
 
-| Feature | Tiger (VPS) | Clique (Render) |
-|---------|-------------|-----------------|
-| Database | PostgreSQL ✅ | SQLite → **PostgreSQL** ✅ |
-| Persistence | Docker Volume ✅ | Managed DB ✅ |
-| Migration | Once ✅ | Every deploy ⚠️ |
-| Data Loss | Never ✅ | Never (with PG) ✅ |
-| Setup | Docker Compose | render.yaml |
+| Feature     | Tiger (VPS)      | Clique (Render)            |
+| ----------- | ---------------- | -------------------------- |
+| Database    | PostgreSQL ✅    | SQLite → **PostgreSQL** ✅ |
+| Persistence | Docker Volume ✅ | Managed DB ✅              |
+| Migration   | Once ✅          | Every deploy ⚠️            |
+| Data Loss   | Never ✅         | Never (with PG) ✅         |
+| Setup       | Docker Compose   | render.yaml                |
 
 ---
 
 ## Troubleshooting
 
 ### Lỗi: "Table does not exist"
+
 → Migration chưa chạy
+
 ```bash
 # SSH vào Render (nếu có)
 pnpm prisma migrate deploy
 ```
 
 ### Lỗi: "Connection refused"
+
 → DATABASE_URL sai
+
 - Check Environment Variables trên Render Dashboard
 - Đảm bảo có `?sslmode=require` cho external DB
 
 ### Migration conflict
+
 → Reset database (⚠️ XÓA DATA)
+
 ```bash
 pnpm prisma migrate reset
 ```
@@ -181,10 +192,12 @@ pnpm prisma migrate reset
 ## Development vs Production
 
 ### Development (Local):
+
 - SQLite: `file:./dev.db` ✅ Đơn giản
 - Hoặc PostgreSQL local với Docker
 
 ### Production (Render):
+
 - **PostgreSQL** only ✅ Persistent
 
 ---
@@ -192,7 +205,7 @@ pnpm prisma migrate reset
 ## Next Steps
 
 - [ ] Setup PostgreSQL database
-- [ ] Update DATABASE_URL environment variable  
+- [ ] Update DATABASE_URL environment variable
 - [ ] Deploy và verify migration chạy thành công
 - [ ] Test tất cả API endpoints
 - [ ] Setup backup strategy (Render auto-backup for paid plans)

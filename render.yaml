@@ -10,14 +10,7 @@ services:
       - key: NODE_ENV
         value: production
       - key: DATABASE_URL
-        fromDatabase:
-          name: clique-db
-          property: connectionString
+        # Internal URL - faster for services on Render
+        value: postgresql://clique_use:STHIKzYmvZgpwd8ttdgFwmdSUFCPRRiw@dpg-d6dbrhi4d50c73amchug-a/clique_dating
       - key: ALLOWED_ORIGINS
         value: https://clique-fe.vercel.app,http://localhost:5173
-
-databases:
-  - name: clique-db
-    databaseName: clique_dating
-    plan: free
-    region: singapore
