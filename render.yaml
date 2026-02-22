@@ -10,9 +10,14 @@ services:
       - key: NODE_ENV
         value: production
       - key: DATABASE_URL
-        # ⚠️ WARNING: SQLite không lưu trữ được trên Render (ephemeral filesystem)
-        # Data sẽ BỊ MẤT sau mỗi lần deploy hoặc restart
-        # Để dùng production, nên chuyển sang PostgreSQL
-        value: file:./prisma.db
+        fromDatabase:
+          name: clique-db
+          property: connectionString
       - key: ALLOWED_ORIGINS
         value: https://clique-fe.vercel.app,http://localhost:5173
+
+databases:
+  - name: clique-db
+    databaseName: clique_dating
+    plan: free
+    region: singapore
