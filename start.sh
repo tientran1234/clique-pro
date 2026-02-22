@@ -1,21 +1,36 @@
 #!/bin/sh
 set -e
 
-echo "🔍 Checking environment..."
-echo "NODE_ENV: $NODE_ENV"
-echo "DATABASE_URL: $DATABASE_URL"
-echo "PORT: $PORT"
+echo "======================================"
+echo "🚀 Starting Clique Backend Deployment"
+echo "======================================"
 
-# Run migrations
-echo "📦 Running Prisma migrations..."
-pnpm prisma migrate deploy
+echo ""
+echo "🔍 Environment Check:"
+echo "  NODE_ENV: $NODE_ENV"
+echo "  PORT: $PORT"
+echo "  DATABASE_URL: ${DATABASE_URL:0:30}..." 
 
-# Verify database
-echo "🔍 Verifying database..."
-pnpm prisma db pull --force 2>/dev/null || echo "⚠️  Database verification skipped"
+echo ""
+echo "======================================"
+echo "📦 Running Prisma Migrations..."
+echo "======================================"
 
-echo "✅ Database ready!"
+# Run migrations with explicit schema path
+pnpm prisma migrate deploy --schema=./prisma/schema.prisma
 
-# Start the application
-echo "🚀 Starting application..."
+echo ""
+echo "✅ Migrations completed successfully!"
+
+echo ""
+echo "🔍 Verifying database tables..."
+# Check if tables exist by listing them
+pnpm prisma db execute --stdin --schema=./prisma/schema.prisma <<SQL
+SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%' ORDER BY name;
+SQL
+
+echo ""
+echo "======================================"
+echo "🚀 Starting NestJS Application..."
+echo "======================================"
 node dist/main
